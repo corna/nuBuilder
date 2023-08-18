@@ -2,9 +2,19 @@ version: '3.7'
 
 services:
 
+  db:
+    image: mariadb
+    volumes:
+      - db:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_USER=nubuilder
+      - MYSQL_PASSWORD=DB_PASSWORD
+      - MYSQL_DATABASE=nubuilder
+      - MYSQL_ROOT_PASSWORD=DB_ROOT_PASSWORD
 
   app:
-    image: nubuildertest:v5
+    image: corna/nubuilder
     restart: unless-stopped
     environment:
       - DB_HOST=db
@@ -13,20 +23,20 @@ services:
       - DB_NAME=nubuilder
       - GLOBE_USER=nubuilder
       - GLOBE_PASS=NUBUILDER_PASSWORD
-      #- NUBUILDER_INSTALL_DIR=/var/www/html/ # This is the default install dir and is normally set as /var/www/html/. Uncomment and change as desired to run multiple webservers not only installed to /var/www/html/. 
+      # - NUBUILDER_INSTALL_DIR=/var/www/html/ # This is the default install dir and is normally set as /var/www/html/. Uncomment and change as desired to run multiple webservers not only installed to /var/www/html/. 
     volumes:
-      - nubuilder:/var/www/nubuilder/ # Change this accordingly to NUBUILDER_INSTALL_DIR if you want to keep the downloaded nubuilder instance
+      - nubuilder:/var/www/html/ # Change this accordingly to NUBUILDER_INSTALL_DIR if you want to keep the downloaded nubuilder instance
   web:
     image: nginx:alpine
     restart: unless-stopped
     ports:
       - 80:80
     volumes:
-      - nubuilder:/var/www/nubuilder:ro
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - nubuilder:/var/www/html/:ro
+      - /path/to/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - app
 
 volumes:
-  
+  db:
   nubuilder:
