@@ -26,3 +26,8 @@ nuBuilder should now be available on the port 80.
 
 The nuBuilder code is stored in the `nubuilder` volume: to download it again (or
 update it) simply delete the volume and restart the container.
+
+## Running the website from a different location than /var/www/html/
+
+If you wish to run multiple instances using a single web server or have multiple web pages that usually use /var/www/html, it is recommended to change the default installation dir.
+In the provided example of `docker-compose.yml` change the environment variable `NUBUILDER_INSTALL_DIR` and the volumes accordingly to your wishes. Also change the `nginx.conf` accordingly.

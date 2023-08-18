@@ -27,8 +27,8 @@ RUN docker-php-ext-install  \
 	xmlrpc \
 	tidy
 
-VOLUME /var/www/html/
 ENV NUBUILDER_DOWNLOAD_LINK "https://sourceforge.net/projects/nubuilder/files/nuBuilder%204.5/nubuilder4.5.zip"
+ENV NUBUILDER_INSTALL_DIR "/var/www/html/"
 
 COPY entrypoint.sh /
 
